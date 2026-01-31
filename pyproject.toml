@@ -1,0 +1,9 @@
+[project]
+name = "mailchimp-mcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastmcp>=2.14.4",
+]
