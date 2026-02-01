@@ -14,3 +14,4 @@ environments Variables
 env 
 
 oauth_service.py
+mailchimp_tokens.json
