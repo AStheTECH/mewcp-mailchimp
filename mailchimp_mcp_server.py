@@ -11,6 +11,7 @@ from tools import (
     list_automations_service,
     get_automation_info_service,
     list_automated_emails_service,
+    get_workflow_email_info_service,
 )
 from utils import make_mailchimp_request
 
@@ -106,7 +107,7 @@ def list_automations_tool(
 def get_automation_info_tool(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
-    workflow_id: str = Field(description="The unique ID for the Automation workflow"),
+    workflow_id: str = Field(description="The unique ID of the Automation workflow"),
     fields: Optional[str] = Field(
         default=None, description="Comma-separated list of fields to return"
     ),
@@ -143,12 +144,47 @@ def get_automation_info_tool(
 def list_automated_emails_tool(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
-    workflow_id: str = Field(description="The unique ID for the Automation workflow"),
+    workflow_id: str = Field(description="The unique ID of the Automation workflow"),
 ):
     return list_automated_emails_service(
         access_token=oauth_token,
         server=server,
         workflow_id=workflow_id,
+    )
+
+
+@mcp.tool(
+    name="get_workflow_email_info",
+    description="Get detailed information about a specific email in an automation workflow",
+)
+def get_workflow_email_info_tool(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    workflow_id: str = Field(description="The unique ID of the Automation workflow"),
+    workflow_email_id: str = Field(
+        description="The unique ID of the Automation workflow email"
+    ),
+):
+    """
+    Get comprehensive information about a specific email in an automation workflow.
+
+    Returns detailed information including:
+    - Email position in the workflow sequence
+    - Delay settings (when email sends relative to trigger)
+    - Subject line, preview text, and content details
+    - From name, reply-to, and sender settings
+    - Recipients list and segment configuration
+    - Tracking configuration (opens, clicks, Google Analytics)
+    - Social media integration (auto-tweet, Facebook)
+    - Performance metrics (open rate, click rate, sends)
+    - Template and content type information
+    - Current status (save, paused, sending)
+    """
+    return get_workflow_email_info_service(
+        access_token=oauth_token,
+        server=server,
+        workflow_id=workflow_id,
+        workflow_email_id=workflow_email_id,
     )
 
 

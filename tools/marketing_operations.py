@@ -128,3 +128,34 @@ def list_automated_emails_service(
             workflow_id
         ),
     )
+
+
+def get_workflow_email_info_service(
+    access_token: str,
+    server: str,
+    workflow_id: str,
+    workflow_email_id: str,
+) -> Dict[str, Any]:
+    """
+    Returns:
+        Dict containing detailed email information including:
+        - Email settings (subject, preview text, from name)
+        - Delay and trigger configuration
+        - Recipients and segment information
+        - Tracking settings (opens, clicks, analytics)
+        - Social media integration
+        - Report summary with performance metrics
+        - Content type and template information
+    """
+    logger.info(
+        f"Fetching workflow email info - workflow_id: {workflow_id}, email_id: {workflow_email_id}"
+    )
+
+    # Make API request
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.automations.get_workflow_email(
+            workflow_id, workflow_email_id
+        ),
+    )
