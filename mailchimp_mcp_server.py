@@ -7,7 +7,11 @@ import argparse
 from fastmcp import FastMCP
 from pydantic import Field
 from typing import Optional
-from tools import list_automations_service, get_automation_info_service
+from tools import (
+    list_automations_service,
+    get_automation_info_service,
+    list_automated_emails_service,
+)
 from utils import make_mailchimp_request
 
 
@@ -129,6 +133,22 @@ def get_automation_info_tool(
         workflow_id=workflow_id,
         fields=fields_list,
         exclude_fields=exclude_fields_list,
+    )
+
+
+@mcp.tool(
+    name="list_automated_emails",
+    description="Get a summary of the emails in a classic automation workflow",
+)
+def list_automated_emails_tool(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    workflow_id: str = Field(description="The unique ID for the Automation workflow"),
+):
+    return list_automated_emails_service(
+        access_token=oauth_token,
+        server=server,
+        workflow_id=workflow_id,
     )
 
 

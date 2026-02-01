@@ -7,6 +7,7 @@ from utils import make_mailchimp_request
 logger = logging.getLogger("mailchimp-mcp-server")
 
 
+############## Automation Management ##############
 def list_automations_service(
     access_token: str,
     server: str,
@@ -94,4 +95,36 @@ def get_automation_info_service(
         access_token=access_token,
         server=server,
         api_method=lambda client: client.automations.get(workflow_id, **query_params),
+    )
+
+
+################# Automation Email Management #################
+
+
+def list_automated_emails_service(
+    access_token: str,
+    server: str,
+    workflow_id: str,
+) -> Dict[str, Any]:
+    logger.info(f"Fetching automated emails for workflow_id: {workflow_id}")
+    """
+
+
+    Returns detailed information for each email including:
+    - Email position in workflow and delay settings
+    - Subject line, preview text, and content details
+    - Recipients and segment information
+    - Tracking configuration (opens, clicks, analytics)
+    - Social media settings
+    - Report summary (performance metrics)
+    - Send time and status
+    """
+
+    # Make API request
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.automations.list_all_workflow_emails(
+            workflow_id
+        ),
     )
