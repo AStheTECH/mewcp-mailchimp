@@ -17,6 +17,7 @@ from tools import (
     list_audience_service,
     get_list_info_service,
     list_campaigns_service,
+    get_campaign_info_service,
 )
 from utils import make_mailchimp_request
 
@@ -320,6 +321,25 @@ def list_campaigns(
     return list_campaigns_service(
         access_token=oauth_token,
         server=server,
+    )
+
+
+# Add after list_campaigns tool
+
+
+@mcp.tool(
+    name="get_campaign_info",
+    description="Get detailed information about a specific campaign",
+)
+def get_campaign_info(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    campaign_id: str = Field(description="The unique ID for the campaign"),
+):
+    return get_campaign_info_service(
+        access_token=oauth_token,
+        server=server,
+        campaign_id=campaign_id,
     )
 
 

@@ -8,6 +8,7 @@ from .marketing_operations import (
     list_audience_service,
     get_list_info_service,
     list_campaigns_service,
+    get_campaign_info_service,
 )
 
 
@@ -21,4 +22,5 @@ __all__ = [
     "list_audience_service",
     "get_list_info_service",
     "list_campaigns_service",
+    "get_campaign_info_service",
 ]

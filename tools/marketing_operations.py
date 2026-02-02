@@ -287,3 +287,20 @@ def list_campaigns_service(
         server=server,
         api_method=lambda client: client.campaigns.list(),
     )
+
+
+def get_campaign_info_service(
+    access_token: str,
+    server: str,
+    campaign_id: str,
+) -> Dict[str, Any]:
+    """
+    Get information about a specific campaign.
+    """
+    logger.info(f"Fetching campaign info for campaign_id: {campaign_id}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.campaigns.get(campaign_id),
+    )
