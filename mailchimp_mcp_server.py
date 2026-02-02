@@ -15,6 +15,7 @@ from tools import (
     list_automated_email_subscribers_service,
     get_automated_email_subscriber_service,
     list_audience_service,
+    get_list_info_service,
 )
 from utils import make_mailchimp_request
 
@@ -288,6 +289,22 @@ def list_audience(
     return list_audience_service(
         access_token=oauth_token,
         server=server,
+    )
+
+
+@mcp.tool(
+    name="get_list_info",
+    description="Get detailed information about a specific list (audience) in your Mailchimp account",
+)
+def get_list_info(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    list_id: str = Field(description="The unique ID for the list"),
+):
+    return get_list_info_service(
+        access_token=oauth_token,
+        server=server,
+        list_id=list_id,
     )
 
 

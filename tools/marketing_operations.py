@@ -245,3 +245,26 @@ def list_audience_service(
         server=server,
         api_method=lambda client: client.lists.get_all_lists(),
     )
+
+
+def get_list_info_service(
+    access_token: str,
+    server: str,
+    list_id: str,
+) -> Dict[str, Any]:
+    """
+    Get information about a specific list in your Mailchimp account.
+
+    Results include list members who have signed up but haven't confirmed
+    their subscription yet and unsubscribed or cleaned.
+
+    Returns:
+        Dict containing detailed list information
+    """
+    logger.info(f"Fetching list info for list_id: {list_id}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.lists.get_list(list_id),
+    )
