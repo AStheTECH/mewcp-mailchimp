@@ -228,3 +228,20 @@ def get_automated_email_subscriber_service(
             workflow_id, workflow_email_id, subscriber_hash
         ),
     )
+
+
+############### List Management ###############
+def list_audience_service(
+    access_token: str,
+    server: str,
+) -> Dict[str, Any]:
+    """
+    Get information about all lists (audiences) in the account.
+    """
+    logger.info("Fetching all audiences")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.lists.get_all_lists(),
+    )

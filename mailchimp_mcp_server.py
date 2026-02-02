@@ -14,6 +14,7 @@ from tools import (
     get_workflow_email_info_service,
     list_automated_email_subscribers_service,
     get_automated_email_subscriber_service,
+    list_audience_service,
 )
 from utils import make_mailchimp_request
 
@@ -259,6 +260,34 @@ def get_automated_email_subscriber(
         workflow_id=workflow_id,
         workflow_email_id=workflow_email_id,
         subscriber_hash=subscriber_hash,
+    )
+
+
+############### List Management ###############
+
+
+@mcp.tool(
+    name="list_audience",
+    description="Get information about all lists (audiences) in the account",
+)
+def list_audience(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+):
+    """
+    Get information about all lists (audiences) in the account.
+
+    Returns detailed information for each list including:
+    - List ID, name, and web ID
+    - Contact information (company, address, phone)
+    - Permission reminder and campaign defaults
+    - Statistics (member count, unsubscribe count, cleaned count, etc.)
+    - Date created and date of last campaign sent
+    - List rating and visibility settings
+    """
+    return list_audience_service(
+        access_token=oauth_token,
+        server=server,
     )
 
 

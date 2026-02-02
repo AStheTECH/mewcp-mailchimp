@@ -5,6 +5,7 @@ from .marketing_operations import (
     get_workflow_email_info_service,
     list_automated_email_subscribers_service,
     get_automated_email_subscriber_service,
+    list_audience_service,
 )
 
 
@@ -15,4 +16,5 @@ __all__ = [
     "get_workflow_email_info_service",
     "list_automated_email_subscribers_service",
     "get_automated_email_subscriber_service",
+    "list_audience_service",
 ]
