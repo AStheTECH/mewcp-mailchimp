@@ -16,6 +16,7 @@ from tools import (
     get_automated_email_subscriber_service,
     list_audience_service,
     get_list_info_service,
+    list_campaigns_service,
 )
 from utils import make_mailchimp_request
 
@@ -305,6 +306,20 @@ def get_list_info(
         access_token=oauth_token,
         server=server,
         list_id=list_id,
+    )
+
+
+############### Campaign Management ###############
+
+
+@mcp.tool(name="list_campaigns", description="Get all campaigns in an account")
+def list_campaigns(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+):
+    return list_campaigns_service(
+        access_token=oauth_token,
+        server=server,
     )
 
 

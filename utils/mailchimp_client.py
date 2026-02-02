@@ -58,3 +58,6 @@ def make_mailchimp_request(
     except Exception as e:
         logger.error(f"Request error: {e}")
         return {"error": str(e)}
+
+
+# \

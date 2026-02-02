@@ -268,3 +268,22 @@ def get_list_info_service(
         server=server,
         api_method=lambda client: client.lists.get_list(list_id),
     )
+
+
+############### Campaign Management ###############
+
+
+def list_campaigns_service(
+    access_token: str,
+    server: str,
+) -> Dict[str, Any]:
+    """
+    Get all campaigns in an account.
+    """
+    logger.info("Fetching all campaigns")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.campaigns.list(),
+    )

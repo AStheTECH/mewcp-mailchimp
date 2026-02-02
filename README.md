@@ -10,9 +10,9 @@
 |                                 | `get_workflow_email_info` [D]          | Retrieve details of a specific email            |
 | **Subscriber Management**       | `list_automated_email_subscribers` [D] | View subscribers in automation queue            |
 |                                 | `get_automation_queue` [D]             | Get the automation email queue                  |
-| **List Management**             | `list_lists`                           | Get all lists in your account                   |
-|                                 | `get_list`                             | Retrieve details of a specific list             |
-| **Campaign Management**         | `list_campaigns`                       | Get all campaigns in your account               |
+| **List Management**             | `list_lists` [D]                       | Get all lists in your account                   |
+|                                 | `get_list` [D]                         | Retrieve details of a specific list             |
+| **Campaign Management**         | `list_campaigns` [D]                   | Get all campaigns in your account               |
 |                                 | `get_campaign`                         | Retrieve details of a specific campaign         |
 | **Member Management**           | `list_members`                         | Get all members in a specific list              |
 |                                 | `get_member`                           | Retrieve details of a specific member           |
