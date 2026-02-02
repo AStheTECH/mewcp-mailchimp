@@ -21,13 +21,11 @@ def list_automations_service(
     since_start_time: Optional[str] = None,
     status: Optional[str] = None,
 ) -> Dict[str, Any]:
-    # Build query parameters
     query_params = {
         "count": count,
         "offset": offset,
     }
 
-    # Add optional parameters
     if fields:
         query_params["fields"] = ",".join(fields)
     if exclude_fields:
@@ -52,7 +50,6 @@ def list_automations_service(
 
     logger.info(f"Fetching automations with params: {query_params}")
 
-    # Make API request
     return make_mailchimp_request(
         access_token=access_token,
         server=server,
@@ -80,7 +77,7 @@ def get_automation_info_service(
     Returns:
         Dict containing automation details or error
     """
-    # Build query parameters
+
     query_params = {}
 
     if fields:
@@ -90,7 +87,6 @@ def get_automation_info_service(
 
     logger.info(f"Fetching automation info for workflow_id: {workflow_id}")
 
-    # Make API request
     return make_mailchimp_request(
         access_token=access_token,
         server=server,
@@ -120,7 +116,6 @@ def list_automated_emails_service(
     - Send time and status
     """
 
-    # Make API request
     return make_mailchimp_request(
         access_token=access_token,
         server=server,
@@ -151,7 +146,6 @@ def get_workflow_email_info_service(
         f"Fetching workflow email info - workflow_id: {workflow_id}, email_id: {workflow_email_id}"
     )
 
-    # Make API request
     return make_mailchimp_request(
         access_token=access_token,
         server=server,
@@ -187,11 +181,50 @@ def list_automated_email_subscribers_service(
         f"Fetching email queue - workflow_id: {workflow_id}, email_id: {workflow_email_id}"
     )
 
-    # Make API request
     return make_mailchimp_request(
         access_token=access_token,
         server=server,
         api_method=lambda client: client.automations.get_workflow_email_subscriber_queue(
             workflow_id, workflow_email_id
+        ),
+    )
+
+
+def get_automated_email_subscriber_service(
+    access_token: str,
+    server: str,
+    workflow_id: str,
+    workflow_email_id: str,
+    subscriber_hash: str,
+) -> Dict[str, Any]:
+    """
+    Get information about a specific subscriber in a classic automation email queue.
+
+    Args:
+        access_token: OAuth access token
+        server: Server prefix (e.g., 'us18')
+        workflow_id: The unique id for the Automation workflow
+        workflow_email_id: The unique id for the Automation workflow email
+        subscriber_hash: The MD5 hash of the lowercase version of the list member's email address
+
+    Returns:
+        Dict containing subscriber queue information including:
+        - Subscriber email and ID
+        - List membership details
+        - Scheduled send time
+        - Queue position
+        - Workflow and email IDs
+    """
+    logger.info(
+        f"Fetching subscriber from email queue - workflow: {workflow_id}, "
+        f"email: {workflow_email_id}, subscriber: {subscriber_hash}"
+    )
+
+    # Make API request
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.automations.get_workflow_email_subscriber(
+            workflow_id, workflow_email_id, subscriber_hash
         ),
     )

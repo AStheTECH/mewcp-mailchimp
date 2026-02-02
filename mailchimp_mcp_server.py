@@ -13,6 +13,7 @@ from tools import (
     list_automated_emails_service,
     get_workflow_email_info_service,
     list_automated_email_subscribers_service,
+    get_automated_email_subscriber_service,
 )
 from utils import make_mailchimp_request
 
@@ -43,12 +44,14 @@ def health_check(oauth_token: str, server: str):
 
 # ============== Tools ==============
 
+######### Automation Management #########
+
 
 @mcp.tool(
     name="list_automations",
     description="Get a summary of an account's classic automations with optional filtering and pagination",
 )
-def list_automations_tool(
+def list_automations(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
@@ -105,7 +108,7 @@ def list_automations_tool(
     name="get_automation_info",
     description="Get detailed information about a specific automation workflow by ID",
 )
-def get_automation_info_tool(
+def get_automation_info(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
@@ -138,11 +141,14 @@ def get_automation_info_tool(
     )
 
 
+######### Automation Email Management #########
+
+
 @mcp.tool(
     name="list_automated_emails",
     description="Get a summary of the emails in a classic automation workflow",
 )
-def list_automated_emails_tool(
+def list_automated_emails(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
@@ -158,7 +164,7 @@ def list_automated_emails_tool(
     name="get_workflow_email_info",
     description="Get detailed information about a specific email in an automation workflow",
 )
-def get_workflow_email_info_tool(
+def get_workflow_email_info(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
@@ -189,14 +195,14 @@ def get_workflow_email_info_tool(
     )
 
 
-# Add after get_workflow_email_info_tool
+#############  Subscribers management #############
 
 
 @mcp.tool(
     name="list_automated_email_subscribers",
     description="Get information about subscribers queued to receive a specific automation email",
 )
-def list_automated_email_subscribers_tool(
+def list_automated_email_subscribers(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
@@ -209,6 +215,50 @@ def list_automated_email_subscribers_tool(
         server=server,
         workflow_id=workflow_id,
         workflow_email_id=workflow_email_id,
+    )
+
+
+@mcp.tool(
+    name="get_automated_email_subscriber",
+    description="Get detailed information about a specific subscriber to an automation email queue",
+)
+def get_automated_email_subscriber(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    workflow_id: str = Field(description="The unique ID of the Automation workflow"),
+    workflow_email_id: str = Field(
+        description="The unique ID of the Automation workflow email"
+    ),
+    subscriber_hash: str = Field(
+        description="The MD5 hash of the lowercase version of the subscriber's email address"
+    ),
+):
+    """
+    Get information about a specific subscriber in a classic automation email queue.
+
+    Returns detailed information about a queued subscriber:
+    - Email address and subscriber ID
+    - List membership information
+    - Next scheduled send time
+    - Queue position and priority
+    - Workflow and email IDs
+    - Links to related resources
+
+    This is useful for:
+    - Checking if a specific subscriber is queued for an email
+    - Verifying when an email will be sent to a subscriber
+    - Troubleshooting automation delivery for individual contacts
+    - Monitoring subscriber progress through automation workflows
+
+    Note: subscriber_hash is the MD5 hash of the lowercase email address.
+    Example: email@example.com -> 5d41402abc4b2a76b9719d911017c592
+    """
+    return get_automated_email_subscriber_service(
+        access_token=oauth_token,
+        server=server,
+        workflow_id=workflow_id,
+        workflow_email_id=workflow_email_id,
+        subscriber_hash=subscriber_hash,
     )
 
 
