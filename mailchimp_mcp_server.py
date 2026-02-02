@@ -12,6 +12,7 @@ from tools import (
     get_automation_info_service,
     list_automated_emails_service,
     get_workflow_email_info_service,
+    list_automated_email_subscribers_service,
 )
 from utils import make_mailchimp_request
 
@@ -181,6 +182,29 @@ def get_workflow_email_info_tool(
     - Current status (save, paused, sending)
     """
     return get_workflow_email_info_service(
+        access_token=oauth_token,
+        server=server,
+        workflow_id=workflow_id,
+        workflow_email_id=workflow_email_id,
+    )
+
+
+# Add after get_workflow_email_info_tool
+
+
+@mcp.tool(
+    name="list_automated_email_subscribers",
+    description="Get information about subscribers queued to receive a specific automation email",
+)
+def list_automated_email_subscribers_tool(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    workflow_id: str = Field(description="The unique ID of the Automation workflow"),
+    workflow_email_id: str = Field(
+        description="The unique ID of the Automation workflow email"
+    ),
+):
+    return list_automated_email_subscribers_service(
         access_token=oauth_token,
         server=server,
         workflow_id=workflow_id,

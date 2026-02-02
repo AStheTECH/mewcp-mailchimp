@@ -159,3 +159,39 @@ def get_workflow_email_info_service(
             workflow_id, workflow_email_id
         ),
     )
+
+
+def list_automated_email_subscribers_service(
+    access_token: str,
+    server: str,
+    workflow_id: str,
+    workflow_email_id: str,
+) -> Dict[str, Any]:
+    """
+
+    Returns information about subscribers currently queued to receive this email:
+    - List of subscribers in the queue
+    - Email addresses and contact details
+    - List membership information
+    - Scheduled send times for each subscriber
+    - Total count of queued subscribers
+    - Queue position and priority
+
+    This is useful for:
+    - Monitoring upcoming automation sends
+    - Verifying subscribers are in the correct queue
+    - Checking when emails will be sent to specific contacts
+    - Troubleshooting automation delivery issues
+    """
+    logger.info(
+        f"Fetching email queue - workflow_id: {workflow_id}, email_id: {workflow_email_id}"
+    )
+
+    # Make API request
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.automations.get_workflow_email_subscriber_queue(
+            workflow_id, workflow_email_id
+        ),
+    )
