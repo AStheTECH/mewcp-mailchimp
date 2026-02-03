@@ -20,6 +20,7 @@ from .store_operations import (
     get_store_info_service,
     list_products_service,
     get_product_info_service,
+    list_store_orders_service,
 )
 
 from .template_operations import (
@@ -58,4 +59,5 @@ __all__ = [
     "get_store_info_service",
     "list_products_service",
     "get_product_info_service",
+    "list_store_orders_service",
 ]

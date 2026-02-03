@@ -83,3 +83,33 @@ def get_product_info_service(
             store_id, product_id
         ),
     )
+
+
+def list_store_orders_service(
+    access_token: str,
+    server: str,
+    store_id: str,
+    count: int = 10,
+    offset: int = 0,
+    customer_id: Optional[str] = None,
+    campaign_id: Optional[str] = None,
+) -> Dict[str, Any]:
+    query_params = {
+        "count": count,
+        "offset": offset,
+    }
+
+    if customer_id:
+        query_params["customer_id"] = customer_id
+    if campaign_id:
+        query_params["campaign_id"] = campaign_id
+
+    logger.info(f"Fetching orders for store_id: {store_id} with params: {query_params}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.ecommerce.get_store_orders(
+            store_id, **query_params
+        ),
+    )
