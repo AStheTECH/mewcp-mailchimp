@@ -402,3 +402,37 @@ def get_campaign_report_service(
         server=server,
         api_method=lambda client: client.reports.get_campaign_report(campaign_id),
     )
+
+
+############### Landing Pages ###############
+
+
+def list_landing_pages_service(
+    access_token: str,
+    server: str,
+    count: int = 10,
+    sort_field: Optional[str] = None,
+    sort_dir: Optional[str] = None,
+) -> Dict[str, Any]:
+    query_params = {"count": count}
+
+    if sort_field:
+        if sort_field not in ["created_at", "updated_at"]:
+            return {
+                "error": "Invalid sort_field. Must be: created_at or updated_at",
+                "status": 400,
+            }
+        query_params["sort_field"] = sort_field
+
+    if sort_dir:
+        if sort_dir.upper() not in ["ASC", "DESC"]:
+            return {"error": "Invalid sort_dir. Must be: ASC or DESC", "status": 400}
+        query_params["sort_dir"] = sort_dir.upper()
+
+    logger.info(f"Fetching landing pages with params: {query_params}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.landingPages.get_all(**query_params),
+    )

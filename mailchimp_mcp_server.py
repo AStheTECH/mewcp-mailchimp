@@ -23,6 +23,7 @@ from tools import (
     get_template_info_service,
     list_campaign_reports_service,
     get_campaign_report_service,
+    list_landing_pages_service,
 )
 from utils import make_mailchimp_request
 
@@ -433,6 +434,34 @@ def get_campaign_report(
         access_token=oauth_token,
         server=server,
         campaign_id=campaign_id,
+    )
+
+
+############### Landing Pages ###############
+
+
+@mcp.tool(
+    name="list_landing_pages", description="Get all landing pages in your account"
+)
+def list_landing_pages(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    count: int = Field(
+        default=10, description="Number of landing pages to return (max: 1000)"
+    ),
+    sort_field: Optional[str] = Field(
+        default=None, description="Sort by: 'created_at' or 'updated_at'"
+    ),
+    sort_dir: Optional[str] = Field(
+        default=None, description="Sort direction: 'ASC' or 'DESC'"
+    ),
+):
+    return list_landing_pages_service(
+        access_token=oauth_token,
+        server=server,
+        count=count,
+        sort_field=sort_field,
+        sort_dir=sort_dir,
     )
 
 
