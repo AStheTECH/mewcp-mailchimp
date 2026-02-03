@@ -17,3 +17,5 @@ oauth_service.py
 mailchimp_tokens.json
 
 dev_server.py
+
+tools.md
