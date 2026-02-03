@@ -415,3 +415,26 @@ def get_landing_page_content_service(
         server=server,
         api_method=lambda client: client.landingPages.get_page_content(page_id),
     )
+
+
+############ E-commerce Store Operations ############
+
+
+def list_stores_service(
+    access_token: str,
+    server: str,
+    count: int = 10,
+    offset: int = 0,
+) -> Dict[str, Any]:
+    query_params = {
+        "count": count,
+        "offset": offset,
+    }
+
+    logger.info(f"Fetching e-commerce stores with params: {query_params}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.ecommerce.stores(**query_params),
+    )

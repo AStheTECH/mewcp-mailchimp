@@ -30,6 +30,7 @@ from tools import (
     add_template_folder_service,
     add_template_service,
     update_template_service,
+    list_stores_service,
 )
 from utils import make_mailchimp_request
 
@@ -596,6 +597,28 @@ def get_landing_page_content(
         access_token=oauth_token,
         server=server,
         page_id=page_id,
+    )
+
+
+@mcp.tool(
+    name="list_stores",
+    description="Get information about all e-commerce stores in the account",
+)
+def list_stores(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    count: int = Field(
+        default=10, description="Number of stores to return (max: 1000)"
+    ),
+    offset: int = Field(
+        default=0, description="Number of records to skip for pagination"
+    ),
+):
+    return list_stores_service(
+        access_token=oauth_token,
+        server=server,
+        count=count,
+        offset=offset,
     )
 
 

@@ -30,8 +30,8 @@
 |                                 | `get_folder`                           | Retrieve details of a specific folder           |
 | **File Manager**                | `list_files`                           | Get all files in the File Manager               |
 |                                 | `get_file`                             | Retrieve details of a specific file             |
-| **Landing Pages**               | `list_landing_pages`                   | Get all landing pages                           |
-|                                 | `get_landing_page`                     | Retrieve details of a specific landing page     |
+| **Landing Pages**               | `list_landing_pages` [D]               | Get all landing pages                           |
+|                                 | `get_landing_page` [D]                 | Retrieve details of a specific landing page     |
 | **E-commerce**                  | `list_stores`                          | Get all e-commerce stores                       |
 |                                 | `get_store`                            | Retrieve details of a specific store            |
 |                                 | `list_products`                        | Get all products in a store                     |
@@ -42,4 +42,4 @@
 |                                 | `get_conversation`                     | Retrieve details of a specific conversation     |
 | **Merge Fields**                | `list_merge_fields`                    | Get all merge fields in a specific list         |
 |                                 | `get_merge_field`                      | Retrieve details of a specific merge field      |
-| **Health Check**                | `health_check`                         | Test Mailchimp API connectivity                 |
+| **Health Check**                | `health_check` [D]                     | Test Mailchimp API connectivity                 |

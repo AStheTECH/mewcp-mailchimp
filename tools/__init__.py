@@ -14,6 +14,7 @@ from .marketing_operations import (
     list_landing_pages_service,
     get_landing_page_info_service,
     get_landing_page_content_service,
+    list_stores_service,
 )
 
 from .template_operations import (
@@ -48,4 +49,5 @@ __all__ = [
     "add_template_folder_service",
     "add_template_service",
     "update_template_service",
+    "list_stores_service",
 ]
