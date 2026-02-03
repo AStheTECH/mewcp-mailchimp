@@ -26,6 +26,8 @@ from tools import (
     list_landing_pages_service,
     get_landing_page_info_service,
     get_landing_page_content_service,
+    list_template_folders_service,
+    add_template_folder_service,
 )
 from utils import make_mailchimp_request
 
@@ -345,6 +347,49 @@ def get_campaign_info(
         access_token=oauth_token,
         server=server,
         campaign_id=campaign_id,
+    )
+
+
+# Add after get_landing_page_content tool
+
+############### Folder Management ###############
+
+
+@mcp.tool(
+    name="list_template_folders",
+    description="Get all folders used to organize templates",
+)
+def list_template_folders(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    count: int = Field(
+        default=10, description="Number of folders to return (max: 1000)"
+    ),
+    offset: int = Field(
+        default=0, description="Number of records to skip for pagination"
+    ),
+):
+    return list_template_folders_service(
+        access_token=oauth_token,
+        server=server,
+        count=count,
+        offset=offset,
+    )
+
+
+# Add after list_template_folders tool
+
+
+@mcp.tool(name="add_template_folder", description="Create a new template folder")
+def add_template_folder(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    name: str = Field(description="The name of the folder"),
+):
+    return add_template_folder_service(
+        access_token=oauth_token,
+        server=server,
+        name=name,
     )
 
 

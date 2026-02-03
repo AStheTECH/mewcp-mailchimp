@@ -9,13 +9,18 @@ from .marketing_operations import (
     get_list_info_service,
     list_campaigns_service,
     get_campaign_info_service,
-    list_templates_service,
-    get_template_info_service,
     list_campaign_reports_service,
     get_campaign_report_service,
     list_landing_pages_service,
     get_landing_page_info_service,
     get_landing_page_content_service,
+)
+
+from .template_operations import (
+    list_templates_service,
+    get_template_info_service,
+    list_template_folders_service,
+    add_template_folder_service,
 )
 
 
@@ -37,4 +42,6 @@ __all__ = [
     "list_landing_pages_service",
     "get_landing_page_info_service",
     "get_landing_page_content_service",
+    "list_template_folders_service",
+    "add_template_folder_service",
 ]
