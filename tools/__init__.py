@@ -14,6 +14,8 @@ from .marketing_operations import (
     list_landing_pages_service,
     get_landing_page_info_service,
     get_landing_page_content_service,
+)
+from .store_operations import (
     list_stores_service,
     get_store_info_service,
     list_products_service,
