@@ -100,3 +100,31 @@ def get_template_info_service(
         server=server,
         api_method=lambda client: client.templates.get_template(template_id),
     )
+
+
+def add_template_service(
+    access_token: str,
+    server: str,
+    name: str,
+    html: str,
+    folder_id: Optional[str] = None,
+) -> Dict[str, Any]:
+    body = {
+        "name": name,
+        "html": html,
+    }
+
+    if folder_id:
+        body["folder_id"] = folder_id
+
+    logger.info(f"Creating template with name: {name}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.templates.create(body),
+    )
+
+
+
+

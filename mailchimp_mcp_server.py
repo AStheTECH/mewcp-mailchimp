@@ -28,6 +28,7 @@ from tools import (
     get_landing_page_content_service,
     list_template_folders_service,
     add_template_folder_service,
+    add_template_service,
 )
 from utils import make_mailchimp_request
 
@@ -435,6 +436,30 @@ def get_template_info(
         access_token=oauth_token,
         server=server,
         template_id=template_id,
+    )
+
+
+@mcp.tool(
+    name="add_template",
+    description="Create a new Classic template for the account. it support Mailchimp Template Language",
+)
+def add_template(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    name: str = Field(description="The name of the template"),
+    html: str = Field(
+        description="The raw HTML for the template. Supports Mailchimp Template Language"
+    ),
+    folder_id: Optional[str] = Field(
+        default=None, description="The ID of the folder to place the template in"
+    ),
+):
+    return add_template_service(
+        access_token=oauth_token,
+        server=server,
+        name=name,
+        html=html,
+        folder_id=folder_id,
     )
 
 

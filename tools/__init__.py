@@ -21,6 +21,7 @@ from .template_operations import (
     get_template_info_service,
     list_template_folders_service,
     add_template_folder_service,
+    add_template_service,
 )
 
 
@@ -44,4 +45,5 @@ __all__ = [
     "get_landing_page_content_service",
     "list_template_folders_service",
     "add_template_folder_service",
+    "add_template_service",
 ]
