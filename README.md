@@ -18,13 +18,13 @@
 |                                 | `get_member`                           | Retrieve details of a specific member           |
 | **Segment Management**          | `list_segments`                        | Get all segments in a specific list             |
 |                                 | `get_segment`                          | Retrieve details of a specific segment          |
-| **Template Management**         | `list_templates`                       | Get all templates in your account               | Transctional |
-|                                 | `get_template`                         | Retrieve details of a specific template         | Transctional |
-| **Reports and Analytics**       | `get_automation_report`                | Get automation report data                      |
-|                                 | `get_automation_email_report`          | Get automation email report data                |
-|                                 | `get_subscriber_activity`              | Get subscriber activity for an automation email |
-|                                 | `list_campaign_reports`                | Get all campaign reports                        |
-|                                 | `get_campaign_report`                  | Get detailed report for a specific campaign     |
+| **Template Management**         | `list_templates` [D]                   | Get all templates in your account               | Transctional |
+|                                 | `get_template` [D]                     | Retrieve details of a specific template         | Transctional |
+| **Reports and Analytics**       | `get_automation_report` NA             | Get automation report data                      |
+|                                 | `get_automation_email_report` NA       | Get automation email report data                |
+|                                 | `get_subscriber_activity` NA           | Get subscriber activity for an automation email |
+|                                 | `list_campaign_reports` [D]            | Get all campaign reports                        |
+|                                 | `get_campaign_report` [D]              | Get detailed report for a specific campaign     |
 | **Account Information**         | `get_account`                          | Get account information and statistics          |
 | **Folder Management**           | `list_folders`                         | Get all campaign folders                        |
 |                                 | `get_folder`                           | Retrieve details of a specific folder           |

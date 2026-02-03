@@ -353,3 +353,52 @@ def get_template_info_service(
         server=server,
         api_method=lambda client: client.templates.get_template(template_id),
     )
+
+
+############### Campaign Report Management ###############
+
+
+def list_campaign_reports_service(
+    access_token: str,
+    server: str,
+    count: int = 10,
+    offset: int = 0,
+    type: Optional[str] = None,
+) -> Dict[str, Any]:
+    query_params = {
+        "count": count,
+        "offset": offset,
+    }
+
+    if type:
+        valid_types = ["regular", "plaintext", "absplit", "rss", "variate"]
+        if type not in valid_types:
+            return {
+                "error": f"Invalid type. Must be one of: {', '.join(valid_types)}",
+                "status": 400,
+            }
+        query_params["type"] = type
+
+    logger.info(f"Fetching campaign reports with params: {query_params}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.reports.get_all_campaign_reports(
+            **query_params
+        ),
+    )
+
+
+def get_campaign_report_service(
+    access_token: str,
+    server: str,
+    campaign_id: str,
+) -> Dict[str, Any]:
+    logger.info(f"Fetching campaign report for campaign_id: {campaign_id}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.reports.get_campaign_report(campaign_id),
+    )

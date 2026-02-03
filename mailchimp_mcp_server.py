@@ -21,6 +21,8 @@ from tools import (
     get_campaign_info_service,
     list_templates_service,
     get_template_info_service,
+    list_campaign_reports_service,
+    get_campaign_report_service,
 )
 from utils import make_mailchimp_request
 
@@ -385,6 +387,52 @@ def get_template_info(
         access_token=oauth_token,
         server=server,
         template_id=template_id,
+    )
+
+
+############### Campaign Report Management ###############
+
+
+@mcp.tool(
+    name="list_campaign_reports",
+    description="Get all  campaign reports with performance metrics",
+)
+def list_campaign_reports(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    count: int = Field(
+        default=10, description="Number of reports to return (max: 1000)"
+    ),
+    offset: int = Field(
+        default=0, description="Number of records to skip for pagination"
+    ),
+    type: Optional[str] = Field(
+        default=None,
+        description="Filter by campaign type: 'regular', 'plaintext', 'absplit', 'rss', or 'variate'",
+    ),
+):
+    return list_campaign_reports_service(
+        access_token=oauth_token,
+        server=server,
+        count=count,
+        offset=offset,
+        type=type,
+    )
+
+
+@mcp.tool(
+    name="get_campaign_report",
+    description="Get detailed report for a specific sent campaign",
+)
+def get_campaign_report(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    campaign_id: str = Field(description="The unique ID for the campaign"),
+):
+    return get_campaign_report_service(
+        access_token=oauth_token,
+        server=server,
+        campaign_id=campaign_id,
     )
 
 
