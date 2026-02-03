@@ -29,6 +29,7 @@ from tools import (
     list_template_folders_service,
     add_template_folder_service,
     add_template_service,
+    update_template_service,
 )
 from utils import make_mailchimp_request
 
@@ -457,6 +458,35 @@ def add_template(
     return add_template_service(
         access_token=oauth_token,
         server=server,
+        name=name,
+        html=html,
+        folder_id=folder_id,
+    )
+
+
+# Add after add_template tool
+
+
+@mcp.tool(
+    name="update_template",
+    description="Update the name, HTML, or folder of an existing template",
+)
+def update_template(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    template_id: str = Field(description="The unique ID for the template"),
+    name: str = Field(description="The name of the template"),
+    html: str = Field(
+        description="The raw HTML for the template. Supports Mailchimp Template Language"
+    ),
+    folder_id: Optional[str] = Field(
+        default=None, description="The ID of the folder to move the template to"
+    ),
+):
+    return update_template_service(
+        access_token=oauth_token,
+        server=server,
+        template_id=template_id,
         name=name,
         html=html,
         folder_id=folder_id,

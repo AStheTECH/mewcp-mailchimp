@@ -126,5 +126,26 @@ def add_template_service(
     )
 
 
+def update_template_service(
+    access_token: str,
+    server: str,
+    template_id: str,
+    name: str,
+    html: str,
+    folder_id: Optional[str] = None,
+) -> Dict[str, Any]:
+    body = {
+        "name": name,
+        "html": html,
+    }
 
+    if folder_id:
+        body["folder_id"] = folder_id
 
+    logger.info(f"Updating template {template_id} with name: {name}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.templates.update_template(template_id, body),
+    )

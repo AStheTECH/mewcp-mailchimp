@@ -22,6 +22,7 @@ from .template_operations import (
     list_template_folders_service,
     add_template_folder_service,
     add_template_service,
+    update_template_service,
 )
 
 
@@ -46,4 +47,5 @@ __all__ = [
     "list_template_folders_service",
     "add_template_folder_service",
     "add_template_service",
+    "update_template_service",
 ]
