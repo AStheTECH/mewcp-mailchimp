@@ -113,3 +113,18 @@ def list_store_orders_service(
             store_id, **query_params
         ),
     )
+
+
+def get_order_info_service(
+    access_token: str,
+    server: str,
+    store_id: str,
+    order_id: str,
+) -> Dict[str, Any]:
+    logger.info(f"Fetching order info for store_id: {store_id}, order_id: {order_id}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.ecommerce.get_order(store_id, order_id),
+    )
