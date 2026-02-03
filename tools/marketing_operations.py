@@ -452,3 +452,28 @@ def get_store_info_service(
         server=server,
         api_method=lambda client: client.ecommerce.get_store(store_id),
     )
+
+
+def list_products_service(
+    access_token: str,
+    server: str,
+    store_id: str,
+    count: int = 10,
+    offset: int = 0,
+) -> Dict[str, Any]:
+    query_params = {
+        "count": count,
+        "offset": offset,
+    }
+
+    logger.info(
+        f"Fetching products for store_id: {store_id} with params: {query_params}"
+    )
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.ecommerce.get_all_store_products(
+            store_id, **query_params
+        ),
+    )

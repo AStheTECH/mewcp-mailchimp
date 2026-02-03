@@ -32,6 +32,7 @@ from tools import (
     update_template_service,
     list_stores_service,
     get_store_info_service,
+    list_products_service,
 )
 from utils import make_mailchimp_request
 
@@ -636,6 +637,30 @@ def get_store_info(
         access_token=oauth_token,
         server=server,
         store_id=store_id,
+    )
+
+
+@mcp.tool(
+    name="list_products",
+    description="Get information about all products in a specific e-commerce store",
+)
+def list_products(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    store_id: str = Field(description="The unique ID for the store"),
+    count: int = Field(
+        default=10, description="Number of products to return (max: 1000)"
+    ),
+    offset: int = Field(
+        default=0, description="Number of records to skip for pagination"
+    ),
+):
+    return list_products_service(
+        access_token=oauth_token,
+        server=server,
+        store_id=store_id,
+        count=count,
+        offset=offset,
     )
 
 
