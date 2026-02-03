@@ -7,6 +7,7 @@ import argparse
 from fastmcp import FastMCP
 from pydantic import Field
 from typing import Optional
+
 from tools import (
     list_automations_service,
     get_automation_info_service,
@@ -18,6 +19,8 @@ from tools import (
     get_list_info_service,
     list_campaigns_service,
     get_campaign_info_service,
+    list_templates_service,
+    get_template_info_service,
 )
 from utils import make_mailchimp_request
 
@@ -324,9 +327,6 @@ def list_campaigns(
     )
 
 
-# Add after list_campaigns tool
-
-
 @mcp.tool(
     name="get_campaign_info",
     description="Get detailed information about a specific campaign",
@@ -340,6 +340,51 @@ def get_campaign_info(
         access_token=oauth_token,
         server=server,
         campaign_id=campaign_id,
+    )
+
+
+############### Template Management ###############
+@mcp.tool(name="list_templates", description="Get all templates in your account")
+def list_templates(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    count: int = Field(
+        default=10, description="Number of templates to return (max: 1000)"
+    ),
+    offset: int = Field(
+        default=0, description="Number of records to skip for pagination"
+    ),
+    type: Optional[str] = Field(
+        default=None, description="Filter by type: 'user', 'base', or 'gallery'"
+    ),
+    content_type: Optional[str] = Field(
+        default=None,
+        description="Filter by content type: 'html', 'template', or 'multichannel'",
+    ),
+):
+    return list_templates_service(
+        access_token=oauth_token,
+        server=server,
+        count=count,
+        offset=offset,
+        type=type,
+        content_type=content_type,
+    )
+
+
+@mcp.tool(
+    name="get_template_info",
+    description="Get detailed information about a specific template by ID",
+)
+def get_template_info(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    template_id: str = Field(description="The unique ID for the template"),
+):
+    return get_template_info_service(
+        access_token=oauth_token,
+        server=server,
+        template_id=template_id,
     )
 
 

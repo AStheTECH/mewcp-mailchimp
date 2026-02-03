@@ -3,7 +3,7 @@
 ## 📚 Available Tools
 
 | Category                        | Tool                                   | Description                                     |
-| ------------------------------- | -------------------------------------- | ----------------------------------------------- |
+| ------------------------------- | -------------------------------------- | ----------------------------------------------- | ------------ |
 | **Automation Management**       | `list_automations` [D]                 | Get all automations in your account             |
 |                                 | `get_automation_info` [D]              | Retrieve details of a specific automation       |
 | **Automation Email Management** | `list_automated_emails` [D]            | Get all emails in an automation                 |
@@ -13,13 +13,13 @@
 | **List Management**             | `list_lists` [D]                       | Get all lists in your account                   |
 |                                 | `get_list` [D]                         | Retrieve details of a specific list             |
 | **Campaign Management**         | `list_campaigns` [D]                   | Get all campaigns in your account               |
-|                                 | `get_campaign`                         | Retrieve details of a specific campaign         |
+|                                 | `get_campaign` [D]                     | Retrieve details of a specific campaign         |
 | **Member Management**           | `list_members`                         | Get all members in a specific list              |
 |                                 | `get_member`                           | Retrieve details of a specific member           |
 | **Segment Management**          | `list_segments`                        | Get all segments in a specific list             |
 |                                 | `get_segment`                          | Retrieve details of a specific segment          |
-| **Template Management**         | `list_templates`                       | Get all templates in your account               |
-|                                 | `get_template`                         | Retrieve details of a specific template         |
+| **Template Management**         | `list_templates`                       | Get all templates in your account               | Transctional |
+|                                 | `get_template`                         | Retrieve details of a specific template         | Transctional |
 | **Reports and Analytics**       | `get_automation_report`                | Get automation report data                      |
 |                                 | `get_automation_email_report`          | Get automation email report data                |
 |                                 | `get_subscriber_activity`              | Get subscriber activity for an automation email |

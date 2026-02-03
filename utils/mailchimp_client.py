@@ -19,29 +19,9 @@ def get_mailchimp_client(access_token: str, server: str) -> MailchimpMarketing.C
 def make_mailchimp_request(
     access_token: str, server: str, api_method: callable, *args, **kwargs
 ) -> Dict[str, Any]:
-    """
-    Request handler for Mailchimp API
-
-    Args:
-        access_token: OAuth access token
-        server: Server prefix (e.g., 'us18')
-        api_method: The Mailchimp client method to call (e.g., client.lists.get_list)
-        *args, **kwargs: Arguments to pass to the API method
-
-    Returns:
-        Dict containing API response or error
-
-    Example:
-        result = make_mailchimp_request(
-            access_token="token",
-            server="us18",
-            api_method=lambda client: client.lists.get_all_lists(count=10)
-        )
-    """
     try:
         client = get_mailchimp_client(access_token, server)
 
-        # If api_method is a lambda/function that takes client as parameter
         if callable(api_method):
             result = api_method(client)
         else:
