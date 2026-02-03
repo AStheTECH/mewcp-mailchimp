@@ -32,12 +32,12 @@
 |                                 | `get_file`                             | Retrieve details of a specific file             |
 | **Landing Pages**               | `list_landing_pages` [D]               | Get all landing pages                           |
 |                                 | `get_landing_page` [D]                 | Retrieve details of a specific landing page     |
-| **E-commerce**                  | `list_stores`                          | Get all e-commerce stores                       |
-|                                 | `get_store`                            | Retrieve details of a specific store            |
-|                                 | `list_products`                        | Get all products in a store                     |
-|                                 | `get_product`                          | Retrieve details of a specific product          |
-|                                 | `list_orders`                          | Get all orders in a store                       |
-|                                 | `get_order`                            | Retrieve details of a specific order            |
+| **E-commerce**                  | `list_stores` [D]                      | Get all e-commerce stores                       |
+|                                 | `get_store` [D]                        | Retrieve details of a specific store            |
+|                                 | `list_products` [D]                    | Get all products in a store                     |
+|                                 | `get_product` [D]                      | Retrieve details of a specific product          |
+|                                 | `list_orders` [D]                      | Get all orders in a store                       |
+|                                 | `get_order` [D]                        | Retrieve details of a specific order            |
 | **Conversations**               | `list_conversations`                   | Get all conversations                           |
 |                                 | `get_conversation`                     | Retrieve details of a specific conversation     |
 | **Merge Fields**                | `list_merge_fields`                    | Get all merge fields in a specific list         |

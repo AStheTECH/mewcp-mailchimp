@@ -21,7 +21,7 @@ from .store_operations import (
     list_products_service,
     get_product_info_service,
     list_store_orders_service,
-    get_store_order_info_service,
+    get_order_info_service,
 )
 
 from .template_operations import (
@@ -61,5 +61,5 @@ __all__ = [
     "list_products_service",
     "get_product_info_service",
     "list_store_orders_service",
-    "get_store_order_info_service",
+    "get_order_info_service",
 ]
