@@ -450,3 +450,17 @@ def get_landing_page_info_service(
         server=server,
         api_method=lambda client: client.landingPages.get_page(page_id),
     )
+
+
+def get_landing_page_content_service(
+    access_token: str,
+    server: str,
+    page_id: str,
+) -> Dict[str, Any]:
+    logger.info(f"Fetching landing page content for page_id: {page_id}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.landingPages.get_page_content(page_id),
+    )
