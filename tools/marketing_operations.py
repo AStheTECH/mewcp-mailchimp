@@ -436,3 +436,17 @@ def list_landing_pages_service(
         server=server,
         api_method=lambda client: client.landingPages.get_all(**query_params),
     )
+
+
+def get_landing_page_info_service(
+    access_token: str,
+    server: str,
+    page_id: str,
+) -> Dict[str, Any]:
+    logger.info(f"Fetching landing page info for page_id: {page_id}")
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.landingPages.get_page(page_id),
+    )

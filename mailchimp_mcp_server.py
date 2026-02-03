@@ -24,6 +24,7 @@ from tools import (
     list_campaign_reports_service,
     get_campaign_report_service,
     list_landing_pages_service,
+    get_landing_page_info_service,
 )
 from utils import make_mailchimp_request
 
@@ -462,6 +463,22 @@ def list_landing_pages(
         count=count,
         sort_field=sort_field,
         sort_dir=sort_dir,
+    )
+
+
+@mcp.tool(
+    name="get_landing_page_info",
+    description="Get detailed information about a specific landing page by ID",
+)
+def get_landing_page_info(
+    oauth_token: str = Field(description="OAuth access token"),
+    server: str = Field(description="Server prefix (e.g., 'us18')"),
+    page_id: str = Field(description="The unique ID for the landing page"),
+):
+    return get_landing_page_info_service(
+        access_token=oauth_token,
+        server=server,
+        page_id=page_id,
     )
 
 
