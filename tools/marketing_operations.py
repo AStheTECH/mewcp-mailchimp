@@ -477,3 +477,22 @@ def list_products_service(
             store_id, **query_params
         ),
     )
+
+
+def get_product_info_service(
+    access_token: str,
+    server: str,
+    store_id: str,
+    product_id: str,
+) -> Dict[str, Any]:
+    logger.info(
+        f"Fetching product info for store_id: {store_id}, product_id: {product_id}"
+    )
+
+    return make_mailchimp_request(
+        access_token=access_token,
+        server=server,
+        api_method=lambda client: client.ecommerce.get_store_product(
+            store_id, product_id
+        ),
+    )
