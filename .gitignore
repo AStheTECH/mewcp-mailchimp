@@ -19,3 +19,7 @@ mailchimp_tokens.json
 dev_server.py
 
 tools.md
+
+uv.lock
+pyproject.toml
+.python-version
