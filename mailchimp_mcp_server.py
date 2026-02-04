@@ -56,7 +56,9 @@ mcp = FastMCP("Mailchimp MCP Server")
 
 
 @mcp.tool(name="health_check", description="Check Mailchimp API connectivity")
-def health_check(oauth_token: str, server: str):
+def health_check(
+    oauth_token: str, server: str = Field(description="Server prefix (e.g., 'us18')")
+):
     return make_mailchimp_request(
         access_token=oauth_token,
         server=server,
@@ -141,16 +143,7 @@ def get_automation_info(
         default=None, description="Comma-separated list of fields to exclude"
     ),
 ):
-    """
-    Get a summary of an individual classic automation workflow's settings and content.
 
-    Returns detailed information including:
-    - Workflow settings (title, from name, reply to, etc.)
-    - Recipients and list information
-    - Trigger settings and workflow type
-    - Tracking configuration
-    - Report summary (opens, clicks, rates)
-    """
     fields_list = fields.split(",") if fields else None
     exclude_fields_list = exclude_fields.split(",") if exclude_fields else None
 
@@ -195,9 +188,8 @@ def get_workflow_email_info(
     ),
 ):
     """
-    Get comprehensive information about a specific email in an automation workflow.
 
-    Returns detailed information including:
+    Returns:
     - Email position in the workflow sequence
     - Delay settings (when email sends relative to trigger)
     - Subject line, preview text, and content details
@@ -255,26 +247,7 @@ def get_automated_email_subscriber(
         description="The MD5 hash of the lowercase version of the subscriber's email address"
     ),
 ):
-    """
-    Get information about a specific subscriber in a classic automation email queue.
 
-    Returns detailed information about a queued subscriber:
-    - Email address and subscriber ID
-    - List membership information
-    - Next scheduled send time
-    - Queue position and priority
-    - Workflow and email IDs
-    - Links to related resources
-
-    This is useful for:
-    - Checking if a specific subscriber is queued for an email
-    - Verifying when an email will be sent to a subscriber
-    - Troubleshooting automation delivery for individual contacts
-    - Monitoring subscriber progress through automation workflows
-
-    Note: subscriber_hash is the MD5 hash of the lowercase email address.
-    Example: email@example.com -> 5d41402abc4b2a76b9719d911017c592
-    """
     return get_automated_email_subscriber_service(
         access_token=oauth_token,
         server=server,
@@ -295,17 +268,7 @@ def list_audience(
     oauth_token: str = Field(description="OAuth access token"),
     server: str = Field(description="Server prefix (e.g., 'us18')"),
 ):
-    """
-    Get information about all lists (audiences) in the account.
 
-    Returns detailed information for each list including:
-    - List ID, name, and web ID
-    - Contact information (company, address, phone)
-    - Permission reminder and campaign defaults
-    - Statistics (member count, unsubscribe count, cleaned count, etc.)
-    - Date created and date of last campaign sent
-    - List rating and visibility settings
-    """
     return list_audience_service(
         access_token=oauth_token,
         server=server,
@@ -357,8 +320,6 @@ def get_campaign_info(
         campaign_id=campaign_id,
     )
 
-
-# Add after get_landing_page_content tool
 
 ############### Folder Management ###############
 
@@ -468,9 +429,6 @@ def add_template(
         html=html,
         folder_id=folder_id,
     )
-
-
-# Add after add_template tool
 
 
 @mcp.tool(
