@@ -1,0 +1,80 @@
+{
+  "cl_schema_version": 1,
+  "name": "Social Media Automation Workflow",
+  "description": "Automated workflow to fetch data and send email notifications using MCP servers",
+  "created_at": "2026-01-24T06:07:26.848Z",
+  "updated_at": "2026-01-24T06:07:26.848Z",
+  "author": "6888b9eb9d526ff0b0ec8626",
+  "actions": [
+    {
+      "index": 1,
+      "tool_name": "fetch_youtube_data",
+      "mcp_server_id": "6971b739a1763ebe3a90dff5",
+      "credential_id": "697313240b544fb7a2375215",
+      "inputs": [
+        {
+          "name": "channel_id",
+          "type": "string",
+          "required": true,
+          "default": null
+        },
+        {
+          "name": "max_results",
+          "type": "number",
+          "required": false,
+          "default": 10
+        }
+      ],
+      "outputs": [
+        { "name": "video_data", "type": "array" },
+        { "name": "statistics", "type": "object" }
+      ]
+    },
+    {
+      "index": 2,
+      "tool_name": "send_gmail",
+      "mcp_server_id": "6971c435192644b4d1472ca1",
+      "credential_id": "697313240b544fb7a2375215",
+      "inputs": [
+        { "name": "to", "type": "string", "required": true, "default": null },
+        {
+          "name": "subject",
+          "type": "string",
+          "required": true,
+          "default": null
+        },
+        { "name": "body", "type": "string", "required": true, "default": null }
+      ],
+      "outputs": [
+        { "name": "message_id", "type": "string" },
+        { "name": "status", "type": "string" }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "trigger_type": "schedule",
+      "trigger_id": "daily_trigger",
+      "outputs": [
+        { "name": "timestamp", "type": "string" },
+        { "name": "trigger_data", "type": "object" }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "source": { "trigger_id": "daily_trigger", "output_name": "timestamp" },
+      "target": { "action_id": "1", "input_name": "channel_id" }
+    },
+    {
+      "source": { "action_id": "1", "output_name": "video_data" },
+      "target": { "action_id": "2", "input_name": "body" }
+    }
+  ],
+  "metadata": {
+    "status": "active",
+    "organization_id": "1",
+    "tags": ["automation", "social-media", "email"],
+    "version": "1.0.0"
+  }
+}
