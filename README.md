@@ -243,7 +243,7 @@ mailchimp_mcp/
 │   └── store_operations.py       #  store operations, orders, and products
 ├── utils/
 │   └── mailchimp_utils.py        # client request utilities
-├── mailchimp_mcp_server.py       # Main server file
+├── server.py                     # Main server file
 ├── requirements.txt              # Python dependencies
 ├── railway.json                  # Railway deployment config
 └── README.md

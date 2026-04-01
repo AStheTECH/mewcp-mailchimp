@@ -51,6 +51,9 @@ logger = logging.getLogger("mailchimp-mcp-server")
 # FastMCP instance
 mcp = FastMCP("Mailchimp MCP Server")
 
+# Expose ASGI app for hosting platform's (e.g. Vercel) Python runtime.
+app = mcp.http_app(path="/mcp", transport="streamable-http")
+
 
 # ============== Health Check ==============
 
