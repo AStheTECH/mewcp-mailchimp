@@ -9,8 +9,6 @@ logger = logging.getLogger("mailchimp-mcp-server")
 
 ############## Automation Management ##############
 def list_automations_service(
-    access_token: str,
-    server: str,
     count: int = 10,
     offset: int = 0,
     fields: Optional[list] = None,
@@ -39,7 +37,6 @@ def list_automations_service(
     if since_start_time:
         query_params["since_start_time"] = since_start_time
     if status:
-        # Validate status
         valid_statuses = ["save", "paused", "sending"]
         if status not in valid_statuses:
             return {
@@ -51,15 +48,11 @@ def list_automations_service(
     logger.info(f"Fetching automations with params: {query_params}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.automations.list(**query_params),
     )
 
 
 def get_automation_info_service(
-    access_token: str,
-    server: str,
     workflow_id: str,
     fields: Optional[list] = None,
     exclude_fields: Optional[list] = None,
@@ -75,8 +68,6 @@ def get_automation_info_service(
     logger.info(f"Fetching automation info for workflow_id: {workflow_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.automations.get(workflow_id, **query_params),
     )
 
@@ -84,16 +75,10 @@ def get_automation_info_service(
 ################# Automation Email Management #################
 
 
-def list_automated_emails_service(
-    access_token: str,
-    server: str,
-    workflow_id: str,
-) -> Dict[str, Any]:
+def list_automated_emails_service(workflow_id: str) -> Dict[str, Any]:
     logger.info(f"Fetching automated emails for workflow_id: {workflow_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.automations.list_all_workflow_emails(
             workflow_id
         ),
@@ -101,8 +86,6 @@ def list_automated_emails_service(
 
 
 def get_workflow_email_info_service(
-    access_token: str,
-    server: str,
     workflow_id: str,
     workflow_email_id: str,
 ) -> Dict[str, Any]:
@@ -112,8 +95,6 @@ def get_workflow_email_info_service(
     )
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.automations.get_workflow_email(
             workflow_id, workflow_email_id
         ),
@@ -121,8 +102,6 @@ def get_workflow_email_info_service(
 
 
 def list_automated_email_subscribers_service(
-    access_token: str,
-    server: str,
     workflow_id: str,
     workflow_email_id: str,
 ) -> Dict[str, Any]:
@@ -132,8 +111,6 @@ def list_automated_email_subscribers_service(
     )
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: (
             client.automations.get_workflow_email_subscriber_queue(
                 workflow_id, workflow_email_id
@@ -143,8 +120,6 @@ def list_automated_email_subscribers_service(
 
 
 def get_automated_email_subscriber_service(
-    access_token: str,
-    server: str,
     workflow_id: str,
     workflow_email_id: str,
     subscriber_hash: str,
@@ -156,8 +131,6 @@ def get_automated_email_subscriber_service(
     )
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.automations.get_workflow_email_subscriber(
             workflow_id, workflow_email_id, subscriber_hash
         ),
@@ -165,36 +138,18 @@ def get_automated_email_subscriber_service(
 
 
 ############### List Management ###############
-def list_audience_service(
-    access_token: str,
-    server: str,
-) -> Dict[str, Any]:
-    """
-    Get information about all lists (audiences) in the account.
-    """
+def list_audience_service() -> Dict[str, Any]:
     logger.info("Fetching all audiences")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.lists.get_all_lists(),
     )
 
 
-def get_list_info_service(
-    access_token: str,
-    server: str,
-    list_id: str,
-) -> Dict[str, Any]:
-    """
-    Results include list members who have signed up but haven't confirmed
-    their subscription yet and unsubscribed or cleaned.
-    """
+def get_list_info_service(list_id: str) -> Dict[str, Any]:
     logger.info(f"Fetching list info for list_id: {list_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.lists.get_list(list_id),
     )
 
@@ -202,31 +157,18 @@ def get_list_info_service(
 ############### Campaign Management ###############
 
 
-def list_campaigns_service(
-    access_token: str,
-    server: str,
-) -> Dict[str, Any]:
-
+def list_campaigns_service() -> Dict[str, Any]:
     logger.info("Fetching all campaigns")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.campaigns.list(),
     )
 
 
-def get_campaign_info_service(
-    access_token: str,
-    server: str,
-    campaign_id: str,
-) -> Dict[str, Any]:
-
+def get_campaign_info_service(campaign_id: str) -> Dict[str, Any]:
     logger.info(f"Fetching campaign info for campaign_id: {campaign_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.campaigns.get(campaign_id),
     )
 
@@ -235,8 +177,6 @@ def get_campaign_info_service(
 
 
 def list_campaign_reports_service(
-    access_token: str,
-    server: str,
     count: int = 10,
     offset: int = 0,
     type: Optional[str] = None,
@@ -258,24 +198,16 @@ def list_campaign_reports_service(
     logger.info(f"Fetching campaign reports with params: {query_params}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.reports.get_all_campaign_reports(
             **query_params
         ),
     )
 
 
-def get_campaign_report_service(
-    access_token: str,
-    server: str,
-    campaign_id: str,
-) -> Dict[str, Any]:
+def get_campaign_report_service(campaign_id: str) -> Dict[str, Any]:
     logger.info(f"Fetching campaign report for campaign_id: {campaign_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.reports.get_campaign_report(campaign_id),
     )
 
@@ -284,8 +216,6 @@ def get_campaign_report_service(
 
 
 def list_landing_pages_service(
-    access_token: str,
-    server: str,
     count: int = 10,
     sort_field: Optional[str] = None,
     sort_dir: Optional[str] = None,
@@ -308,35 +238,21 @@ def list_landing_pages_service(
     logger.info(f"Fetching landing pages with params: {query_params}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.landingPages.get_all(**query_params),
     )
 
 
-def get_landing_page_info_service(
-    access_token: str,
-    server: str,
-    page_id: str,
-) -> Dict[str, Any]:
+def get_landing_page_info_service(page_id: str) -> Dict[str, Any]:
     logger.info(f"Fetching landing page info for page_id: {page_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.landingPages.get_page(page_id),
     )
 
 
-def get_landing_page_content_service(
-    access_token: str,
-    server: str,
-    page_id: str,
-) -> Dict[str, Any]:
+def get_landing_page_content_service(page_id: str) -> Dict[str, Any]:
     logger.info(f"Fetching landing page content for page_id: {page_id}")
 
     return make_mailchimp_request(
-        access_token=access_token,
-        server=server,
         api_method=lambda client: client.landingPages.get_page_content(page_id),
     )

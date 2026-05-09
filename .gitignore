@@ -13,13 +13,12 @@ environments Variables
 .env
 env 
 
-oauth_service.py
-mailchimp_tokens.json
 
-dev_server.py
 
 tools.md
 
 uv.lock
 pyproject.toml
 .python-version
+venv
+.venv

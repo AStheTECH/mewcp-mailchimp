@@ -59,12 +59,8 @@ app = mcp.http_app(path="/mcp", transport="streamable-http")
 
 
 @mcp.tool(name="health_check", description="Check Mailchimp API connectivity")
-def health_check(
-    oauth_token: str, server: str = Field(description="Server prefix (e.g., 'us18')")
-):
+def health_check():
     return make_mailchimp_request(
-        access_token=oauth_token,
-        server=server,
         api_method=lambda client: client.ping.get(),
     )
 
@@ -79,8 +75,6 @@ def health_check(
     description="Get a summary of an account's classic automations with optional filtering and pagination",
 )
 def list_automations(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
         default=10, description="Number of records to return (max: 1000)"
     ),
@@ -117,8 +111,6 @@ def list_automations(
     exclude_fields_list = exclude_fields.split(",") if exclude_fields else None
 
     return list_automations_service(
-        access_token=oauth_token,
-        server=server,
         count=count,
         offset=offset,
         fields=fields_list,
@@ -136,8 +128,6 @@ def list_automations(
     description="Get detailed information about a specific automation workflow by ID",
 )
 def get_automation_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
     fields: Optional[str] = Field(
         default=None, description="Comma-separated list of fields to return"
@@ -151,8 +141,6 @@ def get_automation_info(
     exclude_fields_list = exclude_fields.split(",") if exclude_fields else None
 
     return get_automation_info_service(
-        access_token=oauth_token,
-        server=server,
         workflow_id=workflow_id,
         fields=fields_list,
         exclude_fields=exclude_fields_list,
@@ -167,13 +155,9 @@ def get_automation_info(
     description="Get a summary of the emails in a classic automation workflow",
 )
 def list_automated_emails(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
 ):
     return list_automated_emails_service(
-        access_token=oauth_token,
-        server=server,
         workflow_id=workflow_id,
     )
 
@@ -183,8 +167,6 @@ def list_automated_emails(
     description="Get detailed information about a specific email in an automation workflow",
 )
 def get_workflow_email_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
     workflow_email_id: str = Field(
         description="The unique ID of the Automation workflow email"
@@ -205,8 +187,6 @@ def get_workflow_email_info(
     - Current status (save, paused, sending)
     """
     return get_workflow_email_info_service(
-        access_token=oauth_token,
-        server=server,
         workflow_id=workflow_id,
         workflow_email_id=workflow_email_id,
     )
@@ -220,16 +200,12 @@ def get_workflow_email_info(
     description="Get information about subscribers queued to receive a specific automation email",
 )
 def list_automated_email_subscribers(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
     workflow_email_id: str = Field(
         description="The unique ID of the Automation workflow email"
     ),
 ):
     return list_automated_email_subscribers_service(
-        access_token=oauth_token,
-        server=server,
         workflow_id=workflow_id,
         workflow_email_id=workflow_email_id,
     )
@@ -240,8 +216,6 @@ def list_automated_email_subscribers(
     description="Get detailed information about a specific subscriber to an automation email queue",
 )
 def get_automated_email_subscriber(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     workflow_id: str = Field(description="The unique ID of the Automation workflow"),
     workflow_email_id: str = Field(
         description="The unique ID of the Automation workflow email"
@@ -252,8 +226,6 @@ def get_automated_email_subscriber(
 ):
 
     return get_automated_email_subscriber_service(
-        access_token=oauth_token,
-        server=server,
         workflow_id=workflow_id,
         workflow_email_id=workflow_email_id,
         subscriber_hash=subscriber_hash,
@@ -267,15 +239,9 @@ def get_automated_email_subscriber(
     name="list_audience",
     description="Get information about all lists (audiences) in the account",
 )
-def list_audience(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
-):
+def list_audience():
 
-    return list_audience_service(
-        access_token=oauth_token,
-        server=server,
-    )
+    return list_audience_service()
 
 
 @mcp.tool(
@@ -283,13 +249,9 @@ def list_audience(
     description="Get detailed information about a specific list (audience) in your Mailchimp account",
 )
 def get_list_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     list_id: str = Field(description="The unique ID for the list"),
 ):
     return get_list_info_service(
-        access_token=oauth_token,
-        server=server,
         list_id=list_id,
     )
 
@@ -298,14 +260,8 @@ def get_list_info(
 
 
 @mcp.tool(name="list_campaigns", description="Get all campaigns in an account")
-def list_campaigns(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
-):
-    return list_campaigns_service(
-        access_token=oauth_token,
-        server=server,
-    )
+def list_campaigns():
+    return list_campaigns_service()
 
 
 @mcp.tool(
@@ -313,13 +269,9 @@ def list_campaigns(
     description="Get detailed information about a specific campaign",
 )
 def get_campaign_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     campaign_id: str = Field(description="The unique ID for the campaign"),
 ):
     return get_campaign_info_service(
-        access_token=oauth_token,
-        server=server,
         campaign_id=campaign_id,
     )
 
@@ -332,8 +284,6 @@ def get_campaign_info(
     description="Get all folders used to organize templates",
 )
 def list_template_folders(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
         default=10, description="Number of folders to return (max: 1000)"
     ),
@@ -342,8 +292,6 @@ def list_template_folders(
     ),
 ):
     return list_template_folders_service(
-        access_token=oauth_token,
-        server=server,
         count=count,
         offset=offset,
     )
@@ -354,13 +302,9 @@ def list_template_folders(
 
 @mcp.tool(name="add_template_folder", description="Create a new template folder")
 def add_template_folder(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     name: str = Field(description="The name of the folder"),
 ):
     return add_template_folder_service(
-        access_token=oauth_token,
-        server=server,
         name=name,
     )
 
@@ -368,8 +312,6 @@ def add_template_folder(
 ############### Template Management ###############
 @mcp.tool(name="list_templates", description="Get all templates in your account")
 def list_templates(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
         default=10, description="Number of templates to return (max: 1000)"
     ),
@@ -385,8 +327,6 @@ def list_templates(
     ),
 ):
     return list_templates_service(
-        access_token=oauth_token,
-        server=server,
         count=count,
         offset=offset,
         type=type,
@@ -399,13 +339,9 @@ def list_templates(
     description="Get detailed information about a specific template by ID",
 )
 def get_template_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     template_id: str = Field(description="The unique ID for the template"),
 ):
     return get_template_info_service(
-        access_token=oauth_token,
-        server=server,
         template_id=template_id,
     )
 
@@ -415,8 +351,6 @@ def get_template_info(
     description="Create a new Classic template for the account. it support Mailchimp Template Language",
 )
 def add_template(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     name: str = Field(description="The name of the template"),
     html: str = Field(
         description="The raw HTML for the template. Supports Mailchimp Template Language"
@@ -426,8 +360,6 @@ def add_template(
     ),
 ):
     return add_template_service(
-        access_token=oauth_token,
-        server=server,
         name=name,
         html=html,
         folder_id=folder_id,
@@ -439,8 +371,6 @@ def add_template(
     description="Update the name, HTML, or folder of an existing template",
 )
 def update_template(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     template_id: str = Field(description="The unique ID for the template"),
     name: str = Field(description="The name of the template"),
     html: str = Field(
@@ -451,8 +381,6 @@ def update_template(
     ),
 ):
     return update_template_service(
-        access_token=oauth_token,
-        server=server,
         template_id=template_id,
         name=name,
         html=html,
@@ -468,8 +396,6 @@ def update_template(
     description="Get all  campaign reports with performance metrics",
 )
 def list_campaign_reports(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
         default=10, description="Number of reports to return (max: 1000)"
     ),
@@ -482,8 +408,6 @@ def list_campaign_reports(
     ),
 ):
     return list_campaign_reports_service(
-        access_token=oauth_token,
-        server=server,
         count=count,
         offset=offset,
         type=type,
@@ -495,13 +419,9 @@ def list_campaign_reports(
     description="Get detailed report for a specific sent campaign",
 )
 def get_campaign_report(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     campaign_id: str = Field(description="The unique ID for the campaign"),
 ):
     return get_campaign_report_service(
-        access_token=oauth_token,
-        server=server,
         campaign_id=campaign_id,
     )
 
@@ -513,8 +433,6 @@ def get_campaign_report(
     name="list_landing_pages", description="Get all landing pages in your account"
 )
 def list_landing_pages(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
         default=10, description="Number of landing pages to return (max: 1000)"
     ),
@@ -526,8 +444,6 @@ def list_landing_pages(
     ),
 ):
     return list_landing_pages_service(
-        access_token=oauth_token,
-        server=server,
         count=count,
         sort_field=sort_field,
         sort_dir=sort_dir,
@@ -539,13 +455,9 @@ def list_landing_pages(
     description="Get detailed information about a specific landing page by ID",
 )
 def get_landing_page_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     page_id: str = Field(description="The unique ID for the landing page"),
 ):
     return get_landing_page_info_service(
-        access_token=oauth_token,
-        server=server,
         page_id=page_id,
     )
 
@@ -555,13 +467,9 @@ def get_landing_page_info(
     description="Get the HTML content for a specific landing page",
 )
 def get_landing_page_content(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     page_id: str = Field(description="The unique ID for the landing page"),
 ):
     return get_landing_page_content_service(
-        access_token=oauth_token,
-        server=server,
         page_id=page_id,
     )
 
@@ -571,8 +479,6 @@ def get_landing_page_content(
     description="Get information about all e-commerce stores in the account",
 )
 def list_stores(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     count: int = Field(
         default=10, description="Number of stores to return (max: 1000)"
     ),
@@ -581,8 +487,6 @@ def list_stores(
     ),
 ):
     return list_stores_service(
-        access_token=oauth_token,
-        server=server,
         count=count,
         offset=offset,
     )
@@ -593,13 +497,9 @@ def list_stores(
     description="Get detailed information about a specific e-commerce store",
 )
 def get_store_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     store_id: str = Field(description="The unique ID for the store"),
 ):
     return get_store_info_service(
-        access_token=oauth_token,
-        server=server,
         store_id=store_id,
     )
 
@@ -609,8 +509,6 @@ def get_store_info(
     description="Get information about all products in a specific e-commerce store",
 )
 def list_products(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     store_id: str = Field(description="The unique ID for the store"),
     count: int = Field(
         default=10, description="Number of products to return (max: 1000)"
@@ -620,8 +518,6 @@ def list_products(
     ),
 ):
     return list_products_service(
-        access_token=oauth_token,
-        server=server,
         store_id=store_id,
         count=count,
         offset=offset,
@@ -633,14 +529,10 @@ def list_products(
     description="Get detailed information about a specific product in an e-commerce store",
 )
 def get_product_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     store_id: str = Field(description="The unique ID for the store"),
     product_id: str = Field(description="The unique ID for the product"),
 ):
     return get_product_info_service(
-        access_token=oauth_token,
-        server=server,
         store_id=store_id,
         product_id=product_id,
     )
@@ -651,8 +543,6 @@ def get_product_info(
     description="Get information about all orders in a specific e-commerce store",
 )
 def list_store_orders(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     store_id: str = Field(description="The unique ID for the store"),
     count: int = Field(
         default=10, description="Number of orders to return (max: 1000)"
@@ -670,8 +560,6 @@ def list_store_orders(
     ),
 ):
     return list_store_orders_service(
-        access_token=oauth_token,
-        server=server,
         store_id=store_id,
         count=count,
         offset=offset,
@@ -685,14 +573,10 @@ def list_store_orders(
     description="Get detailed information about a specific order in an e-commerce store",
 )
 def get_order_info(
-    oauth_token: str = Field(description="OAuth access token"),
-    server: str = Field(description="Server prefix (e.g., 'us18')"),
     store_id: str = Field(description="The unique ID for the store"),
     order_id: str = Field(description="The unique ID for the order"),
 ):
     return get_order_info_service(
-        access_token=oauth_token,
-        server=server,
         store_id=store_id,
         order_id=order_id,
     )
