@@ -7,6 +7,7 @@ import argparse
 from fastmcp import FastMCP
 from pydantic import Field
 from typing import Optional
+from fastmcp_credentials import CredentialMiddleware, HeaderCredentialBackend
 
 from tools import (
     list_automations_service,
@@ -49,7 +50,10 @@ logging.basicConfig(
 logger = logging.getLogger("mailchimp-mcp-server")
 
 # FastMCP instance
-mcp = FastMCP("MewCP Mailchimp MCP Server")
+backend = HeaderCredentialBackend()
+mcp = FastMCP(
+    "MewCP Mailchimp MCP Server", middleware=[CredentialMiddleware(backend, "oauth")]
+)
 
 # Expose ASGI app for hosting platform's (e.g. Vercel) Python runtime.
 app = mcp.http_app(path="/mcp", transport="streamable-http", stateless_http=True)
